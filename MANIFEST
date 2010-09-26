@@ -1,0 +1,10 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+lib/MooseX/ConsistentHash/RoleInterface.pm
+lib/MooseX/ConsistentHash/Option.pm
+lib/MooseX/ConsistentHash/AlgorithmConsistentHashKetama.pm
+lib/MooseX/ConsistentHash/SetConsistentHash.pm
+lib/MooseX/ConsistentHash.pm
+t/MooseX-ConsistentHash.t

@@ -1,0 +1,103 @@
+MooseX-ConsistentHash version 0.01
+==================================
+
+NAME
+    MooseX::ConsistentHash - unified consistent hashing interface Version
+
+SYNOPSIS
+    some examples
+
+        use MooseX::ConsistentHash;
+    
+        my $hashing = MooseX::ConsistentHash->new();
+        -- or --
+        my $hashing = MooseX::ConsistentHash->new(
+            class => 'MooseX::ConsistentHash::AlgorithmConsistentHashKetama'
+        );
+        -- or --
+        use Digest::JHash qw();
+        my $hashing = MooseX::ConsistentHash->new(
+            class => 'MooseX::ConsistentHash::SetConsistentHash', 
+            init_hash => {hash_func => \&Digest::JHash::jhash}
+        );
+        -- or --
+        my $hashing = MooseX::ConsistentHash->new(
+            class => 'MooseX::ConsistentHash::SetConsistentHash' 
+        );
+    
+        $hashing->add_options(
+            {option => 'foo1', weight => 1},
+            {option => 'foo2', weight => 2}
+        );
+        my $some = Some->new();
+        $hashing->add_option(option => $some, weight => 10);
+    
+        my $result_option = $hashing->get_option('some_string');
+        # $result_option may be 'foo1' or 'foo2' or $some
+
+DESCRIPTION
+    MooseX::ConsistentHash provides a unified consistent hashing API. By
+    default, this module can work with
+    Algorithm::ConsistentHash::Ketama,Set::ConsistentHash and any of your
+    module for consistent hashing.
+
+  METHODS
+   new
+    It takes two parameters:
+
+    *   class - name class for consistent hashing. The class must support the
+        role of MooseX::ConsistentHash::RoleInterface. By default class is
+        MooseX::ConsistentHash::AlgorithmConsistentHashKetama
+
+    *   init_hash - optional hashref argument. He will be transferred to a
+        constructor consistent hashing class.
+
+   add_option(option => $some, weight => $integer_weight)
+    This method added option to the consistent hashing instance through
+    MooseX::ConsistentHash::Option object. Return identificator option or
+    undef.
+
+   add_options({option => $some, weight => $integer_weight},...)
+    Some sugar. Return list identificators options.
+
+   new_weight($identificator, $new_weight)
+    change weight for current identificator. retuns true if succeful.
+
+   clear_options
+    remove all options and reinint instance consistent hashing. retuns true if
+    succeful.
+
+   clear_option($identificator)
+    remove one option. retuns true if succeful.
+
+   show_options
+    return hashref all options (keys are identificators)
+
+   get_option($key)
+    select the option in the set to which that key is mapped and returns
+    value.
+
+PROBLEMS
+    MooseX::ConsistentHash with
+    MooseX::ConsistentHash::AlgorithmConsistentHashKetama or
+    MooseX::ConsistentHash::SetConsistentHash slower by 80% than the original
+    module Algorithm::ConsistentHash::Ketama or Set::ConsistentHash.
+
+SEE ALSO
+    *   MooseX::ConsistentHash::RoleInterface, MooseX::ConsistentHash::Option
+
+    *   MooseX::ConsistentHash::AlgorithmConsistentHashKetama,
+        Algorithm::ConsistentHash::Ketama
+
+    *   MooseX::ConsistentHash::SetConsistentHash, Set::ConsistentHash
+
+AUTHOR
+    Sivirinov Ivan, <catamoose at yandex.ru>
+
+COPYRIGHT AND LICENSE
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself, either Perl version 5.10 or, at your
+    option, any later version of Perl 5 you may have available.
+
+    And see Algorithm::ConsistentHash::Ketama, Set::ConsistentHash.
+
